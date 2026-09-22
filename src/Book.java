@@ -1,31 +1,38 @@
 public class Book {
-    private String Title;
-    private String Author;
-    private boolean Borrowed;
+    private String title;
+    private String author;
+    private Genre genre;
+    private boolean borrowed;
 
-    public Book(String title, String author){
-        this.Title = title;
-        this.Author = author;
-        this.Borrowed = false;
+    public Book(String title, String author, Genre genre) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.borrowed = false;
     }
 
-    public String getTitle(){
-        return Title;
+    public String getTitle() {
+        return title;
     }
 
-    public String getAuthor(){
-        return Author;
+    public String getAuthor() {
+        return author;
     }
 
-    public boolean isBorrowed(){
-        return Borrowed;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setBorrowed(boolean borrowed){
-        this.Borrowed = borrowed;
+    public boolean isBorrowed() {
+        return borrowed;
     }
 
-    public String toString(){
-        return Title + " by "  + Author +  (Borrowed ? " (borrowed)" : "(available)");
+    public void setBorrowed(boolean borrowed) {
+        this.borrowed = borrowed;
+    }
+
+    @Override
+    public String toString() {
+        return title + " by " + author + " [" + genre + "]" + (borrowed ? " (borrowed)" : " (available)");
     }
 }

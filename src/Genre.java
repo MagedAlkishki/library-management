@@ -1,0 +1,3 @@
+public enum Genre {
+    FICTION, PROGRAMMING, SCIENCE, HISTORY, OTHER
+}
