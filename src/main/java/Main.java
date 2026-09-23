@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,7 +14,6 @@ public class Main {
         while (running) {
             printMenu();
             String choice = scanner.nextLine().trim();
-
             switch (choice) {
                 case "1" -> addBookFromInput(library, scanner);
                 case "2" -> {
@@ -31,6 +31,7 @@ public class Main {
                     System.out.print("Title to remove: ");
                     library.removeBook(scanner.nextLine().trim());
                 }
+                case "8" -> searchOpenLibrary(library, scanner);
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -51,6 +52,7 @@ public class Main {
         System.out.println("5. List all books");
         System.out.println("6. List books by genre");
         System.out.println("7. Remove a book");
+        System.out.println("8. Search Open Library for a book");
         System.out.println("0. Exit");
         System.out.print("Choose: ");
     }
@@ -100,5 +102,36 @@ public class Main {
             System.out.println("That is not a number, using OTHER.");
         }
         return Genre.OTHER;
+    }
+
+    private static void searchOpenLibrary(Library library, Scanner scanner) {
+        System.out.print("Search for a book title: ");
+        String query = scanner.nextLine().trim();
+        if (query.isEmpty()) { System.out.println("Type something to search for."); return; }
+
+        System.out.println("Searching Open Library...");
+        List<BookSearch.Result> results = BookSearch.search(query);
+
+        if (results.isEmpty()) {
+            System.out.println("No results found.");
+            return;
+        }
+
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + results.get(i));
+        }
+
+        System.out.print("Add one to your library? Enter its number, or 0 to skip: ");
+        try {
+            int choice = Integer.parseInt(scanner.nextLine().trim());
+            if (choice >= 1 && choice <= results.size()) {
+                BookSearch.Result picked = results.get(choice - 1);
+                Genre genre = chooseGenre(scanner);
+                library.addBook(new Book(picked.getTitle(), picked.getAuthor(), genre));
+                System.out.println("Added \"" + picked.getTitle() + "\" to your library.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Not a number, skipping.");
+        }
     }
 }
