@@ -30,3 +30,7 @@ bin/
 .DS_Store
 
 target/
+
+### Runtime data ###
+library-data.json
+library-data-test.json
